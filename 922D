@@ -1,0 +1,107 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+#include <numeric>
+#include <cmath>
+
+using namespace std;
+
+typedef long long int lld;
+
+const lld mod = 1e9+7;
+const lld INF = 1e5+1;
+const lld MAXN = 1e9;
+
+struct noise
+{
+    string str;
+    int num_s,num_h;
+    double ratio;
+    noise()
+    {
+        num_s = 0;
+        num_h = 0;
+        ratio = 0;
+    }
+
+    bool operator<(const noise& tt) const
+    {
+        return ratio > tt.ratio;
+    }
+};
+
+
+
+int main()
+{
+    int n;
+    cin >> n;
+    vector<noise> t(n);
+
+    for(int i = 0; i < n; i++)
+    {
+        cin >> t[i].str;
+    }
+
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < t[i].str.size(); j++)
+        {
+            if (t[i].str[j] == 's')
+            {
+                t[i].num_s++;
+            }else
+            {
+                t[i].num_h++;
+            }
+        }
+        
+        if (t[i].num_h == 0)
+        {
+            t[i].ratio = INF;
+        }else
+        {
+            t[i].ratio = (double)t[i].num_s / t[i].num_h;
+        }
+    }
+
+    sort(t.begin(),t.end());
+
+    string robo;
+
+    for(int i = 0; i < n; i++)
+    {
+        string tes = t[i].str;
+        robo += tes;
+    }
+
+    lld cnt_s = 0,cnt_h = 0;
+    lld sol = 0;
+
+    for(int i = 0; i < robo.size(); i++)
+    {
+        if (robo[i] == 's')
+        {
+            cnt_s++;
+        }else
+        {
+            cnt_h = 0;
+            while(robo[i] == 'h')
+            {
+                cnt_h++;
+                i++;
+            }
+
+            sol += cnt_h * cnt_s;
+            i--;
+        }
+    }
+
+    cout << sol << endl;
+
+    return 0;
+}
