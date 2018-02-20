@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+#include <numeric>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+typedef long long int lld;
+
+const lld mod = 1e9+7;
+const lld INF = 1e9;
+//const lld MAXN = 1e9;
+
+int main()
+{
+    double R,x1,y1,x2,y2;
+
+    cin >> R >> x1 >> y1 >> x2 >> y2;
+
+    double dist = sqrt(pow(x1-x2,2)+pow(y1-y2,2));
+
+    //cout << dist << endl;
+
+    if (x1 == x2 && y1 == y2)
+    {
+       double x_t = x1 + R /2;
+        double y_t = y1;
+
+        double r = R/2;
+        cout << setprecision(16) << x_t << " " << setprecision(16) <<  y_t << " " << setprecision(16) <<r << endl;
+    }else if (dist >= R)
+    {
+        cout << setprecision(16) << x1 << " " << setprecision(16) <<  y1 << " " << setprecision(16) << R << endl;
+    }else
+    {
+        double cos = abs( (x1-x2) / dist);
+        double sin = abs( (y1-y2) / dist);
+
+        if (x1 < x2)
+        {
+            cos = -cos;
+        }
+        if (y1 < y2)
+        {
+            sin = -sin;
+        }
+
+        double x_t = x1 + R * cos;
+        double y_t = y1 + R * sin;
+        //cout << " x_t = " << x_t << " " << "y_t =" << y_t << endl;
+
+        x_t = (x_t+x2)/2;
+        y_t = (y_t+y2)/2;
+
+        double r = sqrt(pow(x_t-x2,2) + pow(y_t-y2,2));
+
+        cout << setprecision(16) << x_t << " " << setprecision(16) << y_t << " " << setprecision(16) << r << endl;
+    }
+
+    return 0;
+}
