@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+#include <numeric>
+#include <cmath>
+
+using namespace std;
+
+typedef long long int lld;
+
+const lld mod = 1e9+7;
+const lld INF = 1e9;
+const lld MAX = 1e5+1;
+
+lld n,m;
+lld s1[MAX] = {0},s2[MAX] = {0};
+
+lld power(lld a,lld p) //はやいべき乗計算
+{
+    lld sol = 1;
+
+    while(p > 0)
+    {
+        if (p & 1)
+        {
+            sol *= a;
+            sol %= mod;
+        }
+
+        a *= a;
+        a %= mod;
+        p >>= 1;
+    }
+
+    return sol % mod;
+}
+
+int main()
+{
+    cin >> n >> m;
+
+    for(lld i = 0; i < n; i++)
+    {
+        cin >> s1[i];
+    }
+    for(lld i = 0; i < n; i++)
+    {
+        cin >> s2[i];
+    }
+
+    vector<lld> zero(n+1);
+
+    zero[n] = 0;
+
+    for(int i = n-1; i >=0 ; i--)
+    {
+        zero[i] = zero[i+1];
+        if (s1[i] == 0) zero[i]++;
+        if (s2[i] == 0) zero[i]++;
+    }
+
+    lld p = 0;
+    lld same = 1; //iにおいてi-1までs1==s2となる組み合わせの数
+
+    for(int i = 0; i < n; i++)
+    {
+        if (s1[i] != 0 && s2[i] != 0)
+        {
+            if (s1[i] > s2[i])
+            {
+                p += same * (power(m, zero[i+1]) % mod) % mod;
+            }
+            break;
+        }else if (s1[i] == 0 && s2[i] == 0)
+        {
+            p += (same * (m*(m-1)/2) %mod) * power(m,zero[i+1]) % mod;
+            same *= m;
+            same %= mod;
+        }else if (s1[i] == 0 && s2[i] != 0)
+        {
+            p += (same * (m-s2[i]) % mod) * power(m, zero[i+1]) % mod;
+        }else
+        {
+            p += (same * (s1[i]-1) % mod) * power(m, zero[i+1]) % mod;
+        }
+    }
+
+    if (zero[0] == 0)
+    {
+        for(int i = 0; i < n; i++)
+        {
+            if (s1[i] > s2[i])
+            {
+                cout << 1 << endl;
+                return 0;
+            }
+
+            if (s1[i] < s2[i])
+            {
+                cout << 0 << endl;
+                return 0;
+            }
+        }
+    }
+    lld q = power(m,zero[0]) % mod;
+
+    p %= mod;
+    cout << p * (power(q, mod-2) % mod) % mod << endl;
+
+    return 0;
+}
