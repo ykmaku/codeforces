@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+#include <numeric>
+#include <cmath>
+
+using namespace std;
+
+
+const int MAXN = 1e5;
+
+int main()
+{
+    int n;
+    char s[MAXN+1];
+
+    cin >> n;
+     for(int i = 0; i < n; i++)
+     {
+         cin >> s[i];
+     }
+
+     int x = 0,y = 0,coin=0;
+
+    for(int i = 0; i < n; i++)
+    {
+        if (s[i] == 'U')
+        {
+            y++;
+        }else
+        {
+            x++;
+        }
+
+        if (x == y)
+        {
+            coin++;
+            if (i == n-1)
+            {
+                coin--;
+            }else if (s[i] != s[i+1])
+            {
+                coin--;
+            }
+        }
+    }
+
+    cout << coin << endl;
+
+    return 0;
+}
