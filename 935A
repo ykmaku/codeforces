@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+#include <numeric>
+#include <cmath>
+
+using namespace std;
+
+typedef long long int lld;
+
+const lld mod = 1e9+7;
+const lld INF = 1e9;
+//const lld MAXN = 1e9;
+
+int main()
+{
+    int n;
+    cin >> n;
+
+    int cnt = 0;
+
+    for(int i = n; i > 1; i--)
+    {
+        if (n % i == 0)
+        {
+            cnt++;
+        }
+    }
+
+    cout << cnt << endl;
+
+    return 0;
+}
