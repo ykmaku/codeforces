@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+#include <numeric>
+#include <cmath>
+
+using namespace std;
+
+typedef long long int lld;
+
+const lld mod = 1e9+7;
+const lld INF = 1e9;
+//const lld MAXN = 1e9;
+
+int main()
+{
+	lld k,d,t;
+	cin >> k >> d >> t;
+
+	if (k >= t)
+	{
+		printf("%.18f\n", (double)t);
+	}else if (k % d == 0)
+	{
+		printf("%.18f\n", (double)t);
+	}else
+	{
+		lld turntime = (lld)ceil((double)k / d) * d;
+		//cout << "turntime = " << turntime << endl;
+		lld m = turntime - k;
+		double turn = k + 0.5 * m;
+
+		//cout << "turn = " << turn << endl;
+
+		lld fullset = (lld)floor((double)t / turn);
+
+		//cout << "fullset = " <<  fullset << endl;
+
+		double cook = (double)fullset * turn;
+		//cout << "cook = " << cook << endl;
+		double sol = (double)fullset * turntime;
+
+		//cout << "t-cook " << t-cook << endl;
+
+		if (t-cook <= k)
+		{
+			sol += t-cook;
+		}else
+		{
+			sol += k;
+			double y = (double) t - (double)(cook+k);
+			//cout << "t = " << y << endl;
+			sol += 2 * y;
+		}
+
+		printf("%.09f\n", sol);
+	}
+
+	return 0;
+}
