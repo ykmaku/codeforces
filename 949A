@@ -1,0 +1,103 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+#include <numeric>
+#include <cmath>
+
+using namespace std;
+
+typedef long long int lld;
+
+const lld mod = 1e9+7;
+const lld INF = 1e9;
+//const lld MAXN = 1e9;
+
+int main()
+{
+	string s;
+	cin>>s;
+	int n = s.size();
+	vector<vector<int> > a(n+1);  //これ便利 n+1個のvectorがつくれる
+	int now = 0,cnt=0;  //cnt : 現在の部分列の数 now : 今いる部分列の番号
+
+	if (s[0] == '1')
+	{
+		cout << -1 << endl;
+		return 0;
+	}
+
+	for(int i = 0; i < s.size(); i++)
+	{
+		//cout << "0   now = " << now << " cnt = " << cnt <<  endl;
+
+		if (s[i]=='0')
+		{
+			if (now==cnt)
+			{
+				if (a[now].empty())
+				{
+					a[now].push_back(i+1);
+				}else
+				{
+					if (s[a[now][a[now].size()-1]-1]!='1') //新しく部分列を追加する
+					{
+						cnt++;
+						a[cnt].push_back(i+1);
+						now=cnt;
+					}else
+					{
+						a[now].push_back(i+1);
+					}
+				}
+			}else
+			{
+				a[now].push_back(i+1);
+				now++;
+			}
+		}else
+		{
+			//cout <<  "1   now = " << now << " cnt = " << cnt <<  endl;
+
+			if (s[a[now][a[now].size()-1]-1]=='0')
+			{
+				a[now].push_back(i+1);
+			}else
+			{
+				if (now==0)
+				{
+					cout << -1 << endl;
+					return 0;
+				}else
+				{
+					now--;
+					a[now].push_back(i+1);
+				}
+			}
+		}
+	}
+
+	for(int i = 0; i < cnt+1; i++)
+	{
+		if (s[a[i][a[i].size()-1]-1]=='1')
+		{
+			cout << -1 << endl;
+			return 0;
+		}
+	}
+
+	cout << cnt+1 << endl;
+	for(int i = 0; i < cnt+1; i++)
+	{
+		cout << a[i].size() << " ";
+		for(int j = 0; j < a[i].size()-1; j++)
+		{
+			cout << a[i][j] << " ";
+		}cout << a[i][a[i].size()-1] << endl;
+	}
+
+	return 0;
+}
